@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asset Library — Karakter Demosu</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #10131a;
+        color: #e6e9ef;
+      }
+      #app {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      #panel {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 280px;
+        padding: 16px;
+        border-radius: 10px;
+        background: rgba(16, 19, 26, 0.86);
+        border: 1px solid rgba(230, 233, 239, 0.14);
+        backdrop-filter: blur(8px);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      #panel h1 {
+        margin: 0 0 12px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #8fb8ff;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .row label {
+        flex: 0 0 auto;
+        color: #9aa3b2;
+      }
+      input[type='range'] {
+        flex: 1 1 auto;
+        min-width: 0;
+        accent-color: #8fb8ff;
+      }
+      .value {
+        flex: 0 0 46px;
+        text-align: right;
+        color: #e6e9ef;
+      }
+      button {
+        width: 100%;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(230, 233, 239, 0.18);
+        background: rgba(143, 184, 255, 0.12);
+        color: #e6e9ef;
+        font: inherit;
+        cursor: pointer;
+      }
+      button:hover {
+        background: rgba(143, 184, 255, 0.24);
+      }
+      #stats {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(230, 233, 239, 0.14);
+        color: #9aa3b2;
+        white-space: pre;
+      }
+      #hint {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        font-size: 11px;
+        color: #6b7385;
+      }
+      #labels {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 3px 8px;
+        border-radius: 5px;
+        background: rgba(14, 17, 22, 0.82);
+        border: 1px solid rgba(230, 233, 239, 0.18);
+        font-size: 11px;
+        line-height: 1.35;
+        white-space: nowrap;
+        text-align: center;
+        transition: opacity 0.15s;
+      }
+      .label b {
+        display: block;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+      .label span {
+        color: #7f8899;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="app"></canvas>
+    <div id="labels"></div>
+
+    <div id="panel">
+      <h1>Karakter Sistemi</h1>
+
+      <div class="row">
+        <label for="speed">Hız</label>
+        <input id="speed" type="range" min="0" max="7" step="0.05" value="0" />
+        <span class="value" id="speed-value">0.00</span>
+      </div>
+
+      <div class="row">
+        <label for="turn">Dönüş</label>
+        <input id="turn" type="range" min="-2" max="2" step="0.05" value="0" />
+        <span class="value" id="turn-value">0.00</span>
+      </div>
+
+      <button id="jump">Havada / Yerde</button>
+      <button id="reseed">Yeni Tohum (yeniden üret)</button>
+
+      <div id="stats"></div>
+    </div>
+
+    <p id="hint">Sürükle: döndür · Tekerlek: yakınlaştır · <a href="/dengdeng.html" style="color:#f7a048; font-weight:bold">🔥 Brr Brr Deng Deng 3D →</a> · <a href="/brainrot.html" style="color:#8fb8ff">brainrot arketipleri →</a></p>
+
+    <script type="module" src="/demo/main.ts"></script>
+  </body>
+</html>

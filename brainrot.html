@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asset Library — Brainrot Arketipleri</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #0e1116;
+        color: #e6e9ef;
+      }
+      #app {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      #panel {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 300px;
+        max-height: calc(100% - 32px);
+        overflow-y: auto;
+        padding: 16px;
+        border-radius: 10px;
+        background: rgba(14, 17, 22, 0.88);
+        border: 1px solid rgba(230, 233, 239, 0.14);
+        backdrop-filter: blur(8px);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      #panel h1 {
+        margin: 0 0 4px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #c4a5ff;
+      }
+      #panel .sub {
+        margin: 0 0 14px;
+        color: #6b7385;
+        font-size: 11px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 9px;
+      }
+      .row label {
+        flex: 0 0 74px;
+        color: #9aa3b2;
+      }
+      input[type='range'] {
+        flex: 1 1 auto;
+        min-width: 0;
+        accent-color: #c4a5ff;
+      }
+      .value {
+        flex: 0 0 44px;
+        text-align: right;
+      }
+      select,
+      button {
+        width: 100%;
+        padding: 7px 9px;
+        margin-bottom: 7px;
+        border-radius: 6px;
+        border: 1px solid rgba(230, 233, 239, 0.18);
+        background: rgba(196, 165, 255, 0.12);
+        color: #e6e9ef;
+        font: inherit;
+        cursor: pointer;
+      }
+      button:hover,
+      select:hover {
+        background: rgba(196, 165, 255, 0.24);
+      }
+      .toggle.on {
+        background: rgba(120, 220, 160, 0.26);
+        border-color: rgba(120, 220, 160, 0.5);
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid rgba(230, 233, 239, 0.14);
+        margin: 12px 0;
+      }
+      #stats {
+        color: #9aa3b2;
+        white-space: pre;
+      }
+      #hint {
+        position: fixed;
+        bottom: 16px;
+        left: 16px;
+        font-size: 11px;
+        color: #6b7385;
+      }
+      a {
+        color: #c4a5ff;
+      }
+      #labels {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 3px 8px;
+        border-radius: 5px;
+        background: rgba(14, 17, 22, 0.82);
+        border: 1px solid rgba(230, 233, 239, 0.18);
+        font-size: 11px;
+        line-height: 1.35;
+        white-space: nowrap;
+        text-align: center;
+        transition: opacity 0.15s;
+      }
+      .label b {
+        display: block;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+      .label span {
+        color: #7f8899;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="app"></canvas>
+    <div id="labels"></div>
+
+    <div id="panel">
+      <h1>Brainrot Arketipleri</h1>
+      <p class="sub">9 arketip · 5 gövde planı · 5 animatör</p>
+
+      <div class="row">
+        <label for="speed">Hız</label>
+        <input id="speed" type="range" min="0" max="8" step="0.05" value="0" />
+        <span class="value" id="speed-value">0.00</span>
+      </div>
+
+      <div class="row">
+        <label for="turn">Dönüş</label>
+        <input id="turn" type="range" min="-2" max="2" step="0.05" value="0" />
+        <span class="value" id="turn-value">0.00</span>
+      </div>
+
+      <div class="row">
+        <label for="climb">Tırmanış</label>
+        <input id="climb" type="range" min="-3" max="3" step="0.05" value="0" />
+        <span class="value" id="climb-value">0.00</span>
+      </div>
+
+      <div class="row">
+        <label for="aim-yaw">Nişan yatay</label>
+        <input id="aim-yaw" type="range" min="-1.1" max="1.1" step="0.02" value="0" />
+        <span class="value" id="aim-yaw-value">0.00</span>
+      </div>
+
+      <div class="row">
+        <label for="aim-pitch">Nişan dikey</label>
+        <input id="aim-pitch" type="range" min="-1" max="0.6" step="0.02" value="0" />
+        <span class="value" id="aim-pitch-value">0.00</span>
+      </div>
+
+      <hr />
+
+      <div class="row">
+        <label for="tier">Boyut</label>
+        <select id="tier">
+          <option value="natural">doğal</option>
+          <option value="minion">minion (0.8)</option>
+          <option value="player" selected>player (1.8)</option>
+          <option value="boss">boss (3.75)</option>
+        </select>
+      </div>
+
+      <button id="grounded" class="toggle on">Yerde ✓</button>
+      <button id="water" class="toggle on">Suda ✓ (shark)</button>
+      <button id="weapon" class="toggle">Silah ver</button>
+      <button id="aim" class="toggle">Nişan al</button>
+      <button id="fire" class="toggle">Ateş et (basılı tut)</button>
+      <button id="sword" class="toggle">Kılıç ver</button>
+      <button id="swing" class="toggle">Kılıç salla (basılı tut)</button>
+      <button id="dummy" class="toggle on">Hedefler ✓</button>
+      <button id="palette">Rastgele palet</button>
+      <button id="die">Öldür</button>
+      <button id="respawn">Yeniden doğ</button>
+
+      <hr />
+      <div id="stats"></div>
+    </div>
+
+    <p id="hint">
+      Sürükle: döndür · Tekerlek: yakınlaştır ·
+      <a href="/dengdeng.html" style="color:#f7a048; font-weight:bold">🔥 Brr Brr Deng Deng 3D →</a> ·
+      <a href="/">insansı karakter demosu →</a>
+    </p>
+
+    <script type="module" src="/demo/brainrot.ts"></script>
+  </body>
+</html>
